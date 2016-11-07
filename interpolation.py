@@ -13,28 +13,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 
-# Read points from var.py
-from io_points import points
+# Read points from io_points.json
 
-# get x and y vectors
-points_x = points[:,0]
-points_y = points[:,1]
+with open('io_points.json','r') as f:
+    points_y = json.load(f)
+    points_x = list(range(len(points_y)))
 
-
+    
 plt.plot(points_y,'ro') # add points to plot
 
 
 # Calculate interpolated polynomial
 
-p = np.polyfit(points_x, points_y,3)
-function = np.poly1d(p)
-
-plist = p.tolist()
+p = np.polyfit(points_x, points_y,3) # returns float64 array
+function = np.poly1d(p) # generate function from coefficients
+p = p.tolist() # convert p back to list for json dump
 
 # Generate function values for plotting
 function_x = np.linspace(points_x[0],points_x[-1],50)
 function_y = function(function_x)
-
 
 
 def savePlotPDF ( filename ):
@@ -42,26 +39,14 @@ def savePlotPDF ( filename ):
     # Must be called before plt.show()!
     # Or use subplots...
     plt.savefig(filename)
-    return
-
-def writeCoeffs ( filename ):
-    "Write coefficients to coeff.txt from highest to lowest order"
-    file = open(filename, 'w')
-    file.truncate()
-    for coeff in p:
-        file.write('%.3f' % coeff)
-        file.write(",")
-    file.close
-    return
-    
+    return  
     
 def dumpCoeffs ( filename ):
-    "Dump coefficients to coeff.txt (JSON)"
+    "Dump coefficients to coeff.json"
     file = open(filename, 'w')
     file.truncate()
     json.dump(plist, file)
         
-
 def plotSetup ():
     "General plot setup"
     plt.axis([-1, 4, 0, 10])
@@ -70,13 +55,9 @@ def plotSetup ():
     plt.xlabel("Abstand von x=0 (oben)")
     return
 
-
-writeCoeffs('coeffs.csv')  
-
+dumpCoeffs('coeffs.json')  
 
 plotSetup()
-
-
 plt.plot(points_y,'ro') # add points to plot
 plt.plot(function_x,function_y) # add polynomial to plot
 savePlotPDF('points_polyfit.pdf') 
