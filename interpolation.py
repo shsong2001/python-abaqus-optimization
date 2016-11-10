@@ -98,7 +98,9 @@ def istEnformbar ( function, leftbound, rightbound ):
 # Read data from input.json
 with open('input.json','r') as f:
     input = json.load(f)
-    input = {'p1': [3,2],'p2': [1,1],'p3': [3,0],'vol':14}
+    # Uncomment below to read from inputfile
+    input = {'p1': [0,15],'p2': [1,10],'p3': [2,17],'vol':14}
+    #
     
 keys = ('p1','p2','p3','vol')    
 points = [input[keys[i]] for i in range(len(keys)-1)]
@@ -109,13 +111,13 @@ points_x = [points[i][0] for i in range(len(points))]
 points_y = [points[i][1] for i in range(len(points))]
 
 # Calculate interpolated polynomial
-p = np.polyfit(points_y, points_x,2) # returns float64 array of coefficients from highest to lowest order
+p = np.polyfit(points_x, points_y,2) # returns float64 array of coefficients from highest to lowest order
 function = np.poly1d(p) # generate function from coefficients
 p = p.tolist() # convert p back to a list
 
 # Generate function values for plotting
-function_y = np.linspace(points_y[0],points_y[-1],50)
-function_x = function(function_y)
+function_x = np.linspace(points_x[0],points_x[-1],50)
+function_y = function(function_x)
 
 # Tests
 rotatedVolume = rotationVolume(function)
@@ -129,13 +131,14 @@ dumpData(coeffs, 'int_output.json')
 #dumpData(inputdata, 'input.json')
 
 # Plots
-plt.axis([-5, 5, -5, 5])
+plt.axis([-1, 3, -20, 20])
 plt.title("Points and Polynomial Fit")
 plt.ylabel("Abstand von unten")
 plt.xlabel("Radius")
-plt.vlines(0,0,2,'k','-.')
+plt.hlines(0,0,2,'k','-.')
 plt.plot(points_x,points_y,'ro') # add points to plot
-plt.plot(function_x,function_y) # add polynomial to plot
+plt.plot(function_x,function_y,'g') # add polynomial to plot
+plt.plot(function_x,-function_y,'g') # add polynomial to plot
 #savePlotPDF('points_polyfit.pdf') 
 plt.show()
 
