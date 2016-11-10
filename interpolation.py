@@ -4,8 +4,12 @@ Created on Mon Nov  7 19:53:52 2016
 
 @author: Jens
 
-Input: Set of points
-Output: Polynomial fitted to points using the least squares method
+Input: 
+    Set of 2 points
+Output: 
+    
+    Coefficents of a polynomial function (ax2+bx+c) fitted to points using the least squares method
+    
 
 """
 
@@ -15,6 +19,7 @@ get_ipython().magic('reset -sf')
 #--------------------------------------------
 
 import matplotlib.pyplot as plt
+import scipy.integrate as integrate
 import numpy as np
 import json
 
@@ -38,12 +43,17 @@ def savePlotPDF ( filename ):
     plt.savefig(filename)
     return  
     
-def dumpCoeffs ( filename ):
-    "Dump coefficients to coeff.json"
+def dumpData ( dataDict, filename ):
+    "Dump coefficients to file"
     file = open(filename, 'w')
     file.truncate()
-    json.dump(p, file)
+    json.dump(dataDict, file)
+    file.close()
         
+    
+def calculateVolume ( function ):
+    result = integrate.quad(lambda x: function(x),0,2)
+    return result[0]
     
 def istEnformbar ( function, leftbound, rightbound ):
     '''
@@ -77,9 +87,10 @@ Begin Script
 with open('io_points.json','r') as f:
     points_y = json.load(f)
     points_x = list(range(len(points_y)))
+    inputdata = {'y_1': 3,'y_2': 0,'y_3': 3}
 
 # Calculate interpolated polynomial
-p = np.polyfit(points_x, points_y,3) # returns float64 array of coefficients from highest to lowest order
+p = np.polyfit(points_x, points_y,2) # returns float64 array of coefficients from highest to lowest order
 function = np.poly1d(p) # generate function from coefficients
 p = p.tolist() # convert p back to a list
 
@@ -88,11 +99,14 @@ function_x = np.linspace(points_x[0],points_x[-1],50)
 function_y = function(function_x)
 
 # Tests
-functionMin = minV(function)
-functionMax = maxV(function)
-entformbar = istEnformbar(function, 0, 3)
+functionVolume = calculateVolume(function)
+#functionMin = minV(function)
+#functionMax = maxV(function)
+#entformbar = istEnformbar(function, 0, 3)
 
-dumpCoeffs('coeffs.json')  
+coeffnames = ('a','b','c') # must be same length as p
+coeffs = {coeffnames[i]: p[i] for i in range(0,len(p))}
+dumpData(coeffs, 'int_output.json')  
 
 # Plots
 plt.axis([-1, 4, 0, 10])
@@ -105,6 +119,4 @@ plt.plot(function_x,function_y) # add polynomial to plot
 plt.show()
 
 print(function)
-print('Minimum function value: {0:.3f}'.format(functionMin))
-print('Minimum function value: {0:.3f}'.format(functionMax))
 
