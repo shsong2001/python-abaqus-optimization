@@ -2,7 +2,7 @@
 #
 # Abaqus/Viewer Release 6.14-5 replay file
 # Internal Version: 2015_08_18-16.37.49 135153
-# Run by Jens on Mon Nov 14 16:02:23 2016
+# Run by Jens on Mon Nov 14 16:01:46 2016
 #
 
 # from driverUtils import executeOnCaeGraphicsStartup
@@ -27,5 +27,8 @@ execfile('abapy_test.py', __main__.__dict__)
 #: Processing Step: Verschiebung
 #: Maximum von Mises stress over the entire model is 67.511841 in element 5
 #: Location: frame # 1  step:  Verschiebung 
-print 'RT script done'
-#: RT script done
+#* AccessError: 
+#* openOdb(r'C:/GitHub/python-abaqus-optimization/LK_Output_Testmodell/Biegebalken.odb') 
+#* no longer exists
+#* File "abapy_test.py", line 37, in <module>
+#*     odb.close()

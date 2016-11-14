@@ -2,7 +2,7 @@
 #
 # Abaqus/Viewer Release 6.14-5 replay file
 # Internal Version: 2015_08_18-16.37.49 135153
-# Run by Jens on Mon Nov 14 15:05:07 2016
+# Run by Jens on Mon Nov 14 16:01:31 2016
 #
 
 # from driverUtils import executeOnCaeGraphicsStartup
@@ -16,15 +16,6 @@ session.viewports['Viewport: 1'].makeCurrent()
 from driverUtils import executeOnCaeStartup
 executeOnCaeStartup()
 execfile('abapy_test.py', __main__.__dict__)
-#: Model: C:/GitHub/python-abaqus-optimization/LK_Output_Testmodell/Biegebalken.odb
-#: Number of Assemblies:         1
-#: Number of Assembly instances: 0
-#: Number of Part instances:     1
-#: Number of Meshes:             1
-#: Number of Element Sets:       4
-#: Number of Node Sets:          4
-#: Number of Steps:              1
-#* KeyError: I_INDENTER
-#* File "abapy_test.py", line 28, in <module>
-#*     ref_node_label = 
-#* odb.rootAssembly.instances['I_INDENTER'].nodeSets['REF_NODE'].nodes[0].label
+#* ImportError: No module named adapy.misc
+#* File "abapy_test.py", line 18, in <module>
+#*     from adapy.misc import dump
