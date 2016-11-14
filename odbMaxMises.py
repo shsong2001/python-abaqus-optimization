@@ -73,15 +73,16 @@ def getMaxMises(odbName,elsetName):
                         maxStep = step.name
                         maxFrame = frame.incrementNumber
     if(isStressPresent):
-        print 'Maximum von Mises stress %s is %f in element %d'%(
+        out = 'Maximum von Mises stress %s is %f in element %d'%(
             region, maxMises, maxElem)
-        print 'Location: frame # %d  step:  %s '%(maxFrame,maxStep)
+        out = 'Location: frame # %d  step:  %s '%(maxFrame,maxStep)
     else:
-        print 'Stress output is not available in' \
+        out = 'Stress output is not available in' \
               'the output database : %s\n' %(odb.name)
     
     """ Close the output database before exiting the program """
     odb.close()
+    return out
 
 #==================================================================
 # S T A R T
