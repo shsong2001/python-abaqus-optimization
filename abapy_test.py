@@ -15,8 +15,8 @@ Run using abaqus python / abaqus viewer -noGUI / abaqus cae -noGUI
 # Packages (Abaqus, Abapy and built-in only here)
 from odbAccess import openOdb
 from abapy.postproc import GetHistoryOutputByKey as gho
-from abapy.misc import dump
-#from misc import dump_data as dump
+#from abapy.misc import dump
+from misc import dump_data as dump
 
 from odbMaxMises import getMaxMises
 
@@ -30,8 +30,8 @@ odb = openOdb(workdir + '/' + name + '.odb')
 # Get max. Mises stress
 maxM = getMaxMises(workdir + '/' + name + '.odb','')
 
-#dump('output.json',maxM)
-dump(maxM, workdir + '/' + name + '.pckl')
+dump(maxM,name + '.json')
+#dump(maxM, workdir + '/' + name + '.pckl')
 
 # Closing Odb
 #odb.close()
