@@ -188,7 +188,7 @@ class Nodes(object):
     X, Y, Z = self.x, self.y, self.z
     if len(labels) == 0:
       if label == None: label = 1
-      if label < 1: raise Exception, 'node labels must be > 0.'
+      if label < 1: raise Exception('node labels must be > 0.')
       labels.append(label)
       X.append(x)
       Y.append(y)
@@ -217,7 +217,7 @@ class Nodes(object):
             Y.insert(i,y)
             Z.insert(i,z)
         else:
-          print 'Info: node with label {0} already exists, nothing changed.'.format(label)
+          print ('Info: node with label {0} already exists, nothing changed.'.format(label))
           return
     if toset != None:
       if type(toset) is str:
@@ -339,9 +339,9 @@ class Nodes(object):
           if node not in self.sets[label]: 
             s.append(node)
           else:
-           print 'Info: node {0} was already in set {1}, node was not added to set'.format(node, label)
+           print ('Info: node {0} was already in set {1}, node was not added to set'.format(node, label))
         else:
-          print 'Info: node {0} does not exist, node was not added to set'.format(node)
+          print ('Info: node {0} does not exist, node was not added to set'.format(node))
   
   def add_set_by_func(self, name, func):
     '''
@@ -356,7 +356,7 @@ class Nodes(object):
 
      '''
     from numpy import array, float32, float64, uint32, where
-    if type(name) is not str: raise Exception, 'set labels must be strings, got {0}.'.format(type(name))
+    if type(name) is not str: raise Exception('set labels must be strings, got {0}.'.format(type(name)))
     if self.dtf == 'f': n_dtf = float32
     if self.dtf == 'd': n_dtf = float64
     x = array(self.x, dtype = n_dtf)
@@ -381,7 +381,7 @@ class Nodes(object):
 
      '''
     from numpy import array, float32, float64, uint32, where
-    if type(name) is not str: raise Exception, 'set labels must be strings, got {0}.'.format(type(name))
+    if type(name) is not str: raise Exception('set labels must be strings, got {0}.'.format(type(name)))
     if self.dtf == 'f': n_dtf = float32
     if self.dtf == 'd': n_dtf = float64
     x = array(self.x, dtype = n_dtf)
@@ -577,7 +577,7 @@ class Nodes(object):
     if label in self.sets.keys():
       del self.sets[label]
     else:
-      print 'Info: sets {0} does not exist and cannot be dropped.'.format(label)     
+      print ('Info: sets {0} does not exist and cannot be dropped.'.format(label))  
   
   def eval_function(self, function):
     '''
@@ -688,10 +688,10 @@ class Nodes(object):
     if dtf == 'f': n_dtf = float32
     if dtf == 'd': n_dtf = float64
     if isinstance(disp,VectorFieldOutput) == False:
-      raise Exception, 'disp must be VectorFieldOutput instance.'
+      raise Exception('disp must be VectorFieldOutput instance.')
     # labels = set(mesh.nodes.labels.tolist() + disp.labels.tolist()) # Dangerous method
     n_labels, u_labels = self.labels, disp.labels
-    if n_labels != u_labels: raise Exception, 'Nodes labels and VectorFieldOutput labels must be identical.'
+    if n_labels != u_labels: raise Exception('Nodes labels and VectorFieldOutput labels must be identical.')
     n1, n2, n3 = n_array(self.x, dtype=n_dtf), n_array(self.y, dtype=n_dtf), n_array(self.z, dtype=n_dtf)
     u1, u2, u3 = n_array(disp.data1, dtype=n_dtf), n_array(disp.data2, dtype=n_dtf), n_array(disp.data3, dtype=n_dtf)
     self.x = a_array(dtf, ( n1 + u1 ).tolist() )
@@ -732,7 +732,7 @@ class Nodes(object):
     nlabels = self.labels
     x, y, z = self.x, self.y, self.z
     # Some verifications
-    if old not in nlabels or new not in nlabels: raise Exception, 'Both node labels must exist.'
+    if old not in nlabels or new not in nlabels: raise Exception('Both node labels must exist.')
     # Let's proceed
     i_old, i_new = nlabels.index(old), nlabels.index(new)
     nlabels.pop(i_old)
@@ -773,8 +773,8 @@ class Nodes(object):
     from numpy import array as n_array
     from numpy import float32, float64, sqrt
     from array import array as a_array
-    if len(point) != 3: raise Exception, 'point must be a list  of length 3.'
-    if len(normal) != 3: raise Exception, 'normal must be a list  of length 3.'
+    if len(point) != 3: raise Exception('point must be a list  of length 3.')
+    if len(normal) != 3: raise Exception('normal must be a list  of length 3.')
     if self.dtf == 'f' : a_dtf = float32
     if self.dtf == 'd' : a_dtf = float64
     xp, yp, zp = point[0], point[1], point[2] 
@@ -881,7 +881,7 @@ class Mesh(object):
       dti = self.dti
       dtf = self.dtf
     else:
-      raise Exception, 'nodes argument must be a Nodes class instance.'
+      raise Exception('nodes argument must be a Nodes class instance.')
     if name == None: name = [None for i in labels]
     self.labels = array(dti,[])
     self.connectivity = []
@@ -891,12 +891,12 @@ class Mesh(object):
     self.surfaces = {}
     self.fields = {}
     l = len(labels)
-    if len(connectivity) != len(labels): raise Exception, 'connectivity must have the same length as labels.'
-    if len(space) != len(labels): raise Exception, 'space must have the same length as labels.'
-    if len(name) != len(labels): raise Exception, 'if not None, name must have the same length as labels.'
+    if len(connectivity) != len(labels): raise Exception('connectivity must have the same length as labels.')
+    if len(space) != len(labels): raise Exception('space must have the same length as labels.')
+    if len(name) != len(labels): raise Exception('if not None, name must have the same length as labels.')
     for i in xrange(len(labels)):
       self.add_element(label = labels[i],connectivity = connectivity[i],space = space[i],name = name[i])
-    if type(sets) is not dict: raise Exception, 'sets type must be dict.'
+    if type(sets) is not dict: raise Exception('sets type must be dict.')
     for k in sets.keys():
       self.add_set(k, sets[k])
     for k in surfaces.keys():
@@ -1024,13 +1024,13 @@ class Mesh(object):
     try:
       label = int(label)
     except:
-      raise Exception, 'element labels must be int.'
-    if space not in [1,2,3]: raise Exception, 'space must be 1,2 or 3'
+      raise Exception('element labels must be int.')
+    if space not in [1,2,3]: raise Exception('space must be 1,2 or 3')
     if name == None: name = ''
-    if type(name) is not str: raise Exception, 'name type must be str'  
+    if type(name) is not str: raise Exception('name type must be str')  
     # inputs processing
     if label in self.labels: 
-      print 'Info: element {0} already exists, nothing changed.'.format(label)
+      print ('Info: element {0} already exists, nothing changed.'.format(label))
       return
     else:
       if len(self.labels) == 0:
@@ -1167,7 +1167,7 @@ class Mesh(object):
 
     '''
     from array import array
-    if type(label) is not str: raise Exception, 'set names must be strings.'
+    if type(label) is not str: raise Exception('set names must be strings.')
     label2 = label.lower()
     if label2 not in self.sets: self.sets[label2] = array(self.dti,[])
     if type(elements) == int or type(elements) == long: elements = [elements]
@@ -1176,7 +1176,7 @@ class Mesh(object):
       if i in self.labels: 
         self.sets[label2].append(i)
       else:
-        print 'Info: element {0} does not exist, it was not added to set {1}.'.format(i,label2)
+        print('Info: element {0} does not exist, it was not added to set {1}.'.format(i,label2))
     self.sets[label2] = list(set(self.sets[label2]))
   
   def add_surface(self, label, description):
@@ -1196,13 +1196,13 @@ class Mesh(object):
     {'topsurface': [('top', 1), ('top', 2)]}
     '''
     
-    if type(label) is not str: raise Exception, 'Surface labels must be string, got {0} instead'.format(type(label))
-    if type(description) is not list: raise Exception, 'Surface description must be list, got {0} instead'.format(type(description))
+    if type(label) is not str: raise Exception('Surface labels must be string, got {0} instead'.format(type(label)))
+    if type(description) is not list: raise Exception('Surface description must be list, got {0} instead'.format(type(description)))
     for i in xrange(len(description)):
       t = description[i]
-      if len(t) != 2: raise Exception , 'Surface description elements must have 2 elements, got {0} instead'.format(len(t))
-      if type(t[0]) is not str: raise Exception, '(In surface) Element sets keys must must be str, got {0} instead'.format(type(t[0]))
-      if type(t[1]) not in [int, long]: raise Exception, 'Face numbers must keys must be int (generally in [1...6]), got {0} instead'.format(type(t[1]))
+      if len(t) != 2: raise Exception('Surface description elements must have 2 elements, got {0} instead'.format(len(t)))
+      if type(t[0]) is not str: raise Exception('(In surface) Element sets keys must must be str, got {0} instead'.format(type(t[0])))
+      if type(t[1]) not in [int, long]: raise Exception('Face numbers must keys must be int (generally in [1...6]), got {0} instead'.format(type(t[1])))
     if label not in self.surfaces.keys(): self.surfaces[label] = []
     surf = self.surfaces[label]
     for i in xrange(len(description)):
@@ -1482,7 +1482,7 @@ class Mesh(object):
     if label in self.sets.keys():
       del self.sets[label]
     else:
-      print 'Info: sets {0} does not exist and cannot be dropped.'.format(label)     
+      print ('Info: sets {0} does not exist and cannot be dropped.'.format(label))     
    
   def extrude(self, N = 1 , l = 1., quad = False, mapping = {}):
     '''
@@ -1728,7 +1728,7 @@ class Mesh(object):
               name = 'C3D{0}'.format(len(newconn))
             omesh.add_element(label = label,connectivity = newconn,space = 3,name = name)
           else:
-            print 'element {0} has not been sweeped'.format(oldLabel)
+            print ('element {0} has not been sweeped'.format(oldLabel))
     # Managing sets
     if quad == False:
       ins = self.nodes.sets
@@ -1998,7 +1998,7 @@ class Mesh(object):
     esets = self.sets
     nlabels = self.nodes.labels
     # Some verifications
-    if old not in nlabels or new not in nlabels: raise Exception, 'Both node labels must exist.'
+    if old not in nlabels or new not in nlabels: raise Exception('Both node labels must exist.')
     self.nodes.replace_node(old, new)
     # Let's proceed
     for i in xrange(len(elabels)):
@@ -2010,7 +2010,7 @@ class Mesh(object):
           c.insert(pos,new)
         else:
           el = elabels[i]
-          print 'Info: element {0} maybe have become degenerate due du node replacing.'.format(el)  
+          print ('Info: element {0} maybe have become degenerate due du node replacing.'.format(el)) 
 
   '''
   def simplify_nodes(self, crit_distance = 1.e-10):
@@ -2065,7 +2065,7 @@ class Mesh(object):
     :type crit_distance: float > 0
     '''
     from array import array as n_array
-    if isinstance(other_mesh, Mesh) == False: raise Exception, 'other_mesh should be Mesh instance, got {0}'.format(type(other_mesh))
+    if isinstance(other_mesh, Mesh) == False: raise Exception('other_mesh should be Mesh instance, got {0}'.format(type(other_mesh)))
     dti, odti = self.dti, other_mesh.dti
     dtf, odtf = self.dtf, other_mesh.dtf
     if dti == 'I' or odti == 'I': 
