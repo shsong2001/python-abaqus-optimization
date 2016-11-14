@@ -1,0 +1,16 @@
+Abaqus JOB Biegebalken
+Abaqus 6.14-3
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 5 tokens from Flexnet server scc-lic-02.scc.kit.edu.
+<542 out of 609 licenses remain available>.
+Begin Analysis Input File Processor
+09.11.2016 13:31:42
+Run pre.exe
+09.11.2016 13:31:46
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+09.11.2016 13:31:46
+Run standard.exe
+09.11.2016 13:31:50
+End Abaqus/Standard Analysis
+Abaqus JOB Biegebalken COMPLETED
