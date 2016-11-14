@@ -9,7 +9,7 @@ from IPython import get_ipython
 get_ipython().magic('reset -sf')
 #==============================================================================
 
-from abapy.mesh import nodes
+from abapy.mesh import Nodes
 
 
 '''
@@ -24,7 +24,8 @@ f.close()
 '''
 
 labels = range(5)
-
+print(labels)
+'''
 # Node list
 i = 101
 y=0
@@ -42,3 +43,4 @@ y=0
 for x in range(nodes_x):
     print('{0:2d}, {1:2d}, {2:2d}'.format(i, x, y))
     i += 1
+'''
