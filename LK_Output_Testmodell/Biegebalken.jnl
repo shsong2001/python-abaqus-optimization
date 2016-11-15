@@ -68,3 +68,20 @@ mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF,
     SINGLE, numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', 
     type=ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
 # Save by Admin on 2016_11_09-13.30.40; build 6.14-3 2015_02_02-22.17.19 134785
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Biegebalken'].fieldOutputRequests['F-Output-1'].setValues(
+    variables=('S', 'PE', 'PEEQ', 'PEMAG', 'LE', 'U', 'RF', 'CF'))
+mdb.jobs.changeKey(fromName='Biegebalken', toName='asdfasd')
+# Save by Jens on 2016_11_14-16.50.38; build 6.14-5 2015_08_18-16.37.49 135153
