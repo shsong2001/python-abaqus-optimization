@@ -9,10 +9,7 @@ Run using abaqus python / abaqus viewer -noGUI / abaqus cae -noGUI
 
 # Packages (Abaqus, Abapy and built-in only here)
 from odbAccess import openOdb
-from abapy.postproc import GetHistoryOutputByKey as gho
-#from abapy.misc import dump
 from misc import dump_data as dump
-
 from odbMaxMises import getMaxMises
 
 # Setting up some paths
