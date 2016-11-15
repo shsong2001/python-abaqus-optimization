@@ -4,15 +4,12 @@ Created on Mon Nov  7 19:53:52 2016
 
 @author: Jens
 
-Input: 
+Input:
     Set of 2 points
-Output: 
+Output:
     Volume of function rotated around x axis
     Coefficents of a polynomial function (ax2+bx+c) fitted to points using the least squares method
-
-Things to edit when changing the number of points
     
-
 """
 
 #Clear Variables - required for Spyder/IPython
@@ -39,7 +36,7 @@ def minV ( function ) :
     criticalPoints = np.polyder(function).r
     realCriticalPoints = criticalPoints[criticalPoints.imag==0].real # get real roots
     return function(min(realCriticalPoints))
-    
+
 def maxV ( function ) :
     function = np.poly1d(function)
     criticalPoints = np.polyder(function).r
@@ -51,16 +48,16 @@ def savePlotPDF ( filename ):
     # Must be called before plt.show()!
     # Or use subplots...
     plt.savefig(filename)
-    return  
-    
+    return
+
 def dumpData ( dataDict, filename ):
     "Dump coefficients to file"
     file = open(filename, 'w')
     file.truncate()
     json.dump(dataDict, file, sort_keys=True)
     file.close()
-        
-    
+
+
 def func_rotationVolume ( function ):
     "Return volume from rotation around x-axis"
     result = integrate.quad(lambda x: function(x)*function(x),0,2)
@@ -71,12 +68,12 @@ def poly_rotationVolume (x,y):
     p = np.polyfit(x, y,2) # returns float64 array of coefficients from highest to lowest order
     function = np.poly1d(p) # generate function from coefficients
     return func_rotationVolume(function)
-    
+
 
 #==============================================================================
 #
 # Begin Script
-# 
+#
 #==============================================================================
 
 # Read data from input.json
@@ -85,8 +82,8 @@ with open('input.json','r') as f:
     # Uncomment below to overwrite inputfile
     #input = {'p1': [0,13],'p2': [1,10],'p3': [2,18],'vol':14}
     #
-    
-keys = ('p1','p2','p3','vol')    
+
+keys = ('p1','p2','p3','vol')
 points = [input[keys[i]] for i in range(len(keys)-1)]
 target_volume = input[keys[len(keys)-1]]
 
@@ -109,26 +106,26 @@ if rotated_volume > target_volume:
     while (new_vol > target_volume):
         new_points_y[2] -= 1
         new_vol = poly_rotationVolume(points_x,new_points_y)
-else: 
+else:
     while (new_vol < target_volume):
         new_points_y[2] += 1
         new_vol = poly_rotationVolume(points_x,new_points_y)
-        
+
 volume_error = new_vol - target_volume
 
 # Recalculate interpolated polynomial with new points
 p = np.polyfit(points_x, new_points_y,2) # returns float64 array of coefficients from highest to lowest order
 new_function = np.poly1d(p) # generate function from coefficients
-     
-        
-# Write data to json 
-p = p.tolist() # convert p back to a list for dump       
+
+
+# Write data to json
+p = p.tolist() # convert p back to a list for dump
 coeffnames = ('a','b','c') # must be same length as p
 coeffs = {coeffnames[i]: p[i] for i in range(0,len(p))}
-dumpData(coeffs, 'output.json')  
+dumpData(coeffs, 'output.json')
 
 #==============================================================================
-# 
+#
 #Plotting
 #==============================================================================
 
@@ -147,7 +144,7 @@ plt.plot(points_x,new_points_y,'ro') # add new points to plot
 plt.plot(function_x,function_y,'b--') # add polynomial to plot
 plt.plot(function_x,new_function_y,'g') # add new polynomial to plot
 plt.plot(function_x,-new_function_y,'g') # add negativ side
-#savePlotPDF('points_polyfit.pdf') 
+#savePlotPDF('points_polyfit.pdf')
 plt.show()
 
 print(function)
